@@ -16,15 +16,28 @@ import java.sql.SQLException;
  */
 public class DbUtil 
 {
-    private static final String USERNAME="malinda";
+   private static final String USERNAME="malinda";
 	private static final String PASSWORD="malinda123";
+	/*private static final String USERNAME="dbuser";
+	private static final String PASSWORD="dbpassword";*/
 	private static final String CONNATRING="jdbc:mysql://localhost/BookShop?useUnicode=true&amp;characterEncoding=UTF-8";
+	private static final String CONNATRING1="jdbc:hsqldb:data/BookShop";
 	
-	public static Connection getConnection(DbType db) throws SQLException{
-		switch (db) {
+	public static Connection getConnection(DbType db) throws SQLException, ClassNotFoundException
+	{
+		switch (db) 
+		{
 		case MySQL:
 			return DriverManager.getConnection(CONNATRING, USERNAME, PASSWORD);		
 
+		case Access:
+			String driver ="sun.jdbc.odbc.JdbcOdbcDriver";
+			Class.forName(driver);
+			String database="jdbc:odbc:BookShop";
+			return DriverManager.getConnection(database);
+			
+		case HSQL:
+			return DriverManager.getConnection(CONNATRING1, USERNAME, PASSWORD);	
 		default:
 			return null;
 		
