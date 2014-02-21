@@ -13,5 +13,6 @@ package classes;
 public enum DbType 
 {
     MySQL,
-    Access
+    Access,
+    HSQL
 }
