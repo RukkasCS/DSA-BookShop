@@ -1,0 +1,91 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package classes;
+
+/**
+ *
+ * @author malinda
+ */
+public class BinaryTree 
+{
+    	//Variables
+	Node root;
+
+	
+	public BinaryTree() 
+	{
+		// Default constructor
+	}
+	
+	public void addNode(Node node)
+	{
+		Node newNode=node;
+		
+		//If there is no root this becomes root
+		
+		if (root==null) 
+		{
+			root=newNode;
+		}
+		else
+		{
+			Node focusNode=root;
+			
+			Node parentNode;
+			
+			while (true) 
+			{
+				parentNode=focusNode;		
+				if (newNode.title.compareTo(focusNode.title)<0) 
+				{
+					focusNode=focusNode.leftChild;
+					if (focusNode==null) 
+					{
+						parentNode.leftChild=newNode;						
+						return;
+					}
+				}
+				else
+				{
+					focusNode=focusNode.rightChild;
+					if (focusNode==null)
+					{
+						parentNode.rightChild=newNode;
+						return;
+					}
+				}
+				
+			}
+		}
+	}
+
+	public Node SearchNode(Node node)
+	{
+		Node focusNode=root;
+		
+		//while (focusNode.title.charAt(0)!=node.title.charAt(0))
+		while(focusNode.title.compareToIgnoreCase(node.title)!=0)
+		{
+			if (node.title.compareTo(focusNode.title)<0)
+			{
+				focusNode=focusNode.leftChild;
+			}
+			else
+			{
+				focusNode=focusNode.rightChild;
+			}
+			
+				if (focusNode==null)
+		{
+			return null;
+		}	
+	}
+		
+			return focusNode;
+		
+	}
+}
