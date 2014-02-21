@@ -1,0 +1,66 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package classes;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author malinda
+ */
+public class Node 
+{
+    //Variables
+	int isbn;
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	String title;
+	String authorName;
+	String authorSurname;
+	
+	Node leftChild;
+	Node rightChild;
+
+	public Node() 
+	{
+		// Default constructor
+	}
+	
+	//Parameterized constructor
+	public Node(int ISBN,String TITLE,String AUTHORNAME,String AUTHORSURNAME)
+	{
+		this.isbn=ISBN;
+		this.title=TITLE;
+		this.authorName=AUTHORNAME;
+		this.authorSurname=AUTHORSURNAME;
+	}
+	
+	//Display Records
+	public static ArrayList<Node> display(ResultSet rs) throws SQLException
+	{
+		ArrayList<Node> nlist=new ArrayList<Node>();
+		while (rs.next()) 
+		{
+                    nlist.add(new Node(rs.getInt("Id"),rs.getString("Title"),rs.getString("AuthorName"),rs.getString("AuthorSurname")));
+		}
+		
+		return nlist;
+		/*for (Node node : nlist) 
+		{
+			System.out.println(node.isbn+"\t"+ node.title+"\t"+ node.authorName +"\t"+ node.authorSurname);
+		}*/
+		
+	}
+}
