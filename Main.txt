@@ -1,0 +1,71 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package classes;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+/**
+ *
+ * @author malinda
+ */
+public class Main 
+{
+    	private static final String USERNAME="malinda";
+	private static final String PASSWORD="malinda123";
+	private static final String CONN_URL="jdbc:mysql:";
+
+	public static void main(String[] args) 
+	{
+		
+
+		 //Working code
+	        BinaryTree tree=new BinaryTree();
+		
+		tree.addNode(new Node(1,"Java","Malinda","Lamahewa"));
+		tree.addNode(new Node(2,"Iphone","Steve","Jobs"));
+		tree.addNode(new Node(3,"MySql","Hasunie","Adikari"));
+		tree.addNode(new Node(4,"Python","Sameh","Abdalla"));
+		tree.addNode(new Node(5,"C","Denise","Riche"));
+		
+		System.out.println("Nodes added!");
+		
+		Node myNode=new Node();
+		myNode.setTitle("Iphone");
+		Node result=tree.SearchNode(myNode);
+		System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+
+		
+		//Using DB
+//	try 
+//		(
+//				Connection conn=DbUtil.getConnection(DbType.MySQL);
+//				Statement stmt=(Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);
+//				ResultSet rs=stmt.executeQuery("SELECT  * FROM book");				
+//		)
+//		{
+//			
+//			BinaryTree tree=new BinaryTree();
+//			for (Node result :Node.display(rs)) 
+//			{
+//				tree.addNode(result);
+//				//System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+//			}
+//			Node myNode=new Node();
+//			myNode.setTitle("c");
+//			Node result=tree.SearchNode(myNode);
+//			System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+//		}						
+//		
+//		
+//		catch (Exception e) 
+//		{
+//			System.err.println(e);
+//		}
+	}
+}
