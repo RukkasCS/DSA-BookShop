@@ -1,0 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package classes;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author malinda
+ */
+public class DbUtil 
+{
+    private static final String USERNAME="malinda";
+	private static final String PASSWORD="malinda123";
+	private static final String CONNATRING="jdbc:mysql://localhost/BookShop?useUnicode=true&amp;characterEncoding=UTF-8";
+	
+	public static Connection getConnection(DbType db) throws SQLException{
+		switch (db) {
+		case MySQL:
+			return DriverManager.getConnection(CONNATRING, USERNAME, PASSWORD);		
+
+		default:
+			return null;
+		
+		}
+	} 
+}
