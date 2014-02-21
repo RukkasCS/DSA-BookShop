@@ -25,7 +25,8 @@ public class Main
 		
 
 		 //Working code
-	        BinaryTree tree=new BinaryTree();
+		 
+	      /*  BinaryTree tree=new BinaryTree();
 		
 		tree.addNode(new Node(1,"Java","Malinda","Lamahewa"));
 		tree.addNode(new Node(2,"Iphone","Steve","Jobs"));
@@ -39,33 +40,62 @@ public class Main
 		myNode.setTitle("Iphone");
 		Node result=tree.SearchNode(myNode);
 		System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+		
+		*/
 
 		
+		
 		//Using DB
-//	try 
-//		(
-//				Connection conn=DbUtil.getConnection(DbType.MySQL);
-//				Statement stmt=(Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);
-//				ResultSet rs=stmt.executeQuery("SELECT  * FROM book");				
-//		)
-//		{
-//			
-//			BinaryTree tree=new BinaryTree();
-//			for (Node result :Node.display(rs)) 
-//			{
-//				tree.addNode(result);
-//				//System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
-//			}
-//			Node myNode=new Node();
-//			myNode.setTitle("c");
-//			Node result=tree.SearchNode(myNode);
-//			System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
-//		}						
-//		
-//		
-//		catch (Exception e) 
-//		{
-//			System.err.println(e);
-//		}
+	try 
+		(
+				Connection conn=DbUtil.getConnection(DbType.HSQL);
+				Statement stmt=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);
+				ResultSet rs=stmt.executeQuery("SELECT * FROM BOOK");				
+		)
+		{
+			
+			BinaryTree tree=new BinaryTree();
+			for (Node result :Node.display(rs)) 
+			{
+				tree.addNode(result);
+				//System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+			}	
+			
+			//Remove
+			
+			Node mynode=new Node();
+			mynode.title="MongoDB";
+			if (tree.remove(mynode)) 
+			{
+				System.out.println("Node deleted");
+			}
+			else
+			{
+				System.out.println("Node not deleted");
+			}
+			
+			//Search
+			
+			Node myNode=new Node();
+			myNode.setTitle("MySQl");
+			Node result=tree.SearchNode(myNode);
+			System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+		
+			
+			
+			/*Node myNode=new Node();
+			myNode.setTitle("Java");
+			Node result=tree.SearchNode(myNode);
+			System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+			*/
+			/*Statement stmt=null;
+			ResultSet rs=null;
+			Connection conn=DbUtil.getConnection(DbType.HSQL);
+			stmt=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs=stmt.executeQuery("SELECT * FROM BOOK");
+			rs.last();
+			System.out.println("Rows:"+rs.getRow());*/
+		}						
+		
 	}
 }
