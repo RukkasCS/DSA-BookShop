@@ -1,22 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package classes;
+package com.malinda.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author malinda
- */
 public class Node 
 {
-    //Variables
+	//Variables
 	int isbn;
 	public String getTitle() {
 		return title;
@@ -53,7 +43,7 @@ public class Node
 		ArrayList<Node> nlist=new ArrayList<Node>();
 		while (rs.next()) 
 		{
-                    nlist.add(new Node(rs.getInt("Id"),rs.getString("Title"),rs.getString("AuthorName"),rs.getString("AuthorSurname")));
+			nlist.add(new Node(rs.getInt("ISBN"),rs.getString("TITLE"),rs.getString("AUTHORNAME"),rs.getString("AUTHORSURNAME")));
 		}
 		
 		return nlist;
