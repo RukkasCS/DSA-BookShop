@@ -1,101 +1,204 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package com.malinda.data;
 
-package classes;
+import java.util.Scanner;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-/**
- *
- * @author malinda
- */
 public class Main 
 {
-    	private static final String USERNAME="malinda";
-	private static final String PASSWORD="malinda123";
-	private static final String CONN_URL="jdbc:mysql:";
-
 	public static void main(String[] args) 
-	{
+	{	
+		BinaryTree tree=null;
 		
-
-		 //Working code
-		 
-	      /*  BinaryTree tree=new BinaryTree();
-		
-		tree.addNode(new Node(1,"Java","Malinda","Lamahewa"));
-		tree.addNode(new Node(2,"Iphone","Steve","Jobs"));
-		tree.addNode(new Node(3,"MySql","Hasunie","Adikari"));
-		tree.addNode(new Node(4,"Python","Sameh","Abdalla"));
-		tree.addNode(new Node(5,"C","Denise","Riche"));
-		
-		System.out.println("Nodes added!");
-		
-		Node myNode=new Node();
-		myNode.setTitle("Iphone");
-		Node result=tree.SearchNode(myNode);
-		System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
-		
-		*/
-
+		System.out.println("\n\t\t\t************* Welcome to Binary Book Shop **********\n\n----------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Press... \n\n\t1.Insert Books\n\t2.Search a Book by Title\n\t3.Search a Book by ISBN\n\t4.Remove a Book by using ISBN\n\t5.Remove a Book by using Title\n\t6.View Tree\n\t0.Exit\n\nPlease Enter your command here :\t");
 		
 		
-		//Using DB
-	try 
-		(
-				Connection conn=DbUtil.getConnection(DbType.HSQL);
-				Statement stmt=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE , ResultSet.CONCUR_READ_ONLY);
-				ResultSet rs=stmt.executeQuery("SELECT * FROM BOOK");				
-		)
+		Scanner scan=new Scanner(System.in);
+		int value=scan.nextInt();
+		scan.nextLine();
+		
+		
+		switch (value) 
 		{
+		
+		case 0:
+			System.exit(1);
 			
-			BinaryTree tree=new BinaryTree();
-			for (Node result :Node.display(rs)) 
+		case 1:
+			tree=new BinaryTree();
+			Node node=new Node();
+			System.out.println("\n******************* Add New Book ********************\n");
+			System.out.println("Please enter the book details..\n\t");
+			
+			System.out.println("Book ISBN:\t");
+			node.isbn=scan.nextInt();
+			scan.nextLine();
+			
+			
+			System.out.println("Title:\t");
+			node.title=scan.nextLine();
+			
+			
+			System.out.println("Author Name:\t");
+			node.authorName=scan.nextLine();
+			
+			
+			System.out.println("Author Surname:\t");
+			node.authorSurname=scan.nextLine();
+			
+			
+			try
 			{
-				tree.addNode(result);
-				//System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+				if (DbUtil.insertValuesToDB(node)) 
+				{
+					System.out.println("Inserted");
+					scan.nextLine();
+					
+				}
+				else
+				{
+					System.out.println("Not inserted");
+					scan.nextLine();
+				}	
+			} 
+			catch (Exception e) 
+			{
+				System.out.println(e.getMessage());
+			}
+		    finally
+			{
+		    	scan.close();
 			}	
 			
-			//Remove
 			
-			Node mynode=new Node();
-			mynode.title="MongoDB";
-			if (tree.remove(mynode)) 
+
+		case 2:
+			tree=new BinaryTree();
+			System.out.println("Please enter the book title you want to search:\t");
+			
+			try 
+			{   
+				Node nodeSearch=new Node();
+				nodeSearch.title=scan.nextLine();
+				Node result=tree.SearchNode(nodeSearch);
+				System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+				scan.nextLine();
+				
+			} catch (Exception e) 
 			{
-				System.out.println("Node deleted");
+				// TODO: handle exception
+				System.out.println(e.getMessage());
 			}
-			else
+			finally
 			{
-				System.out.println("Node not deleted");
+				scan.close();
+			}
+						
+		case 3:
+			tree=new BinaryTree();
+			System.out.println("Please enter the book ISBN you want to search:\t");
+			Node nodeSearch2=new Node();
+			try 
+			{
+				nodeSearch2.isbn=scan.nextInt();
+				scan.nextLine();
+				Node result=tree.SearchNode(nodeSearch2);
+				System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
+				scan.nextLine();
+				
+			} catch (Exception e) 
+			{
+				// TODO: handle exception
+				System.out.println(e.getMessage());
+			}
+			finally
+			{
+				scan.close();
+			}
+
+			
+		case 4:
+			try 
+			{
+				System.out.println("Please enter the book ISBN to delete :");
+				tree=new BinaryTree();
+				Node mynode=new Node();
+				mynode.isbn=scan.nextInt();
+				scan.nextLine();
+				if (tree.remove(mynode)) 
+				{
+					System.out.println("Node deleted from tree (Deleted from memory..)");
+				}
+				System.out.println("\nDo you want to delete this record also from the Database(Yes/No)?\t");
+				String answer=scan.nextLine();
+				if (answer.equals("Yes")) 
+				{
+					DbUtil.DeleteNodeFromDB(mynode);
+					System.out.println("Record deleted from DB..");
+					scan.nextLine();
+				}
+				if (answer.equals("No")) 
+				{
+					System.out.println("Record not deleted from DB..");
+					scan.nextLine();
+				}
+			} 
+			catch (Exception e) 
+			{
+				// TODO: handle exception
+				System.out.println(e.getMessage());
+			}
+			finally
+			{
+				scan.close();
+			}
+	
+			
+		case 5:
+			try 
+			{
+				System.out.println("Please enter the book Title to delete :");
+				tree=new BinaryTree();
+				Node mynode=new Node();
+				mynode.title=scan.nextLine();
+				if (tree.remove(mynode)) 
+				{
+					System.out.println("Node deleted from tree (Deleted from memory..)");
+				}
+				System.out.println("\nDo you want to delete this record also from the Database(Yes/No)?\t");
+				String answer=scan.nextLine();
+				if (answer.equals("Yes")) 
+				{
+					DbUtil.DeleteNodeFromDB(mynode);
+					System.out.println("Record deleted from DB..");
+					scan.nextLine();
+				}
+				if (answer.equals("No")) 
+				{
+					System.out.println("Record not deleted from DB..");
+					scan.nextLine();
+				}
+			} 
+			catch (Exception e) 
+			{
+				// TODO: handle exception
+				System.out.println(e.getMessage());
+			}
+			finally
+			{
+				scan.close();
 			}
 			
-			//Search
+		case 6:
+			tree=new BinaryTree();
+			tree.displayTree();
+			scan.nextLine();
+					
 			
-			Node myNode=new Node();
-			myNode.setTitle("MySQl");
-			Node result=tree.SearchNode(myNode);
-			System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
-		
-			
-			
-			/*Node myNode=new Node();
-			myNode.setTitle("Java");
-			Node result=tree.SearchNode(myNode);
-			System.out.println(result.isbn+"\t"+result.title+"\t"+result.authorName+"\t"+result.authorSurname);
-			*/
-			/*Statement stmt=null;
-			ResultSet rs=null;
-			Connection conn=DbUtil.getConnection(DbType.HSQL);
-			stmt=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			rs=stmt.executeQuery("SELECT * FROM BOOK");
-			rs.last();
-			System.out.println("Rows:"+rs.getRow());*/
-		}						
-		
+		default:
+		System.out.println("Please enter a Valid command!");
+		}
+		}
+	
+
 	}
-}
+	
